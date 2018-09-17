@@ -333,6 +333,21 @@ export default class extends Component {
   }
 
   /**
+   * Scroll event handler
+   * @param {object} e native event
+   */
+  onScroll = e => {
+    if (!e.nativeEvent.contentOffset) {
+      if (this.state.dir === 'x') {
+        e.nativeEvent.contentOffset = {x: e.nativeEvent.position * this.state.width + e.nativeEvent.offset * this.state.width}
+      } else {
+        e.nativeEvent.contentOffset = {y: e.nativeEvent.position * this.state.height + e.nativeEvent.offset * this.state.height}
+      }
+    }
+    this.props.onScroll && this.props.onScroll(e, this.fullState(), this);
+  }
+
+  /**
    * Scroll begin handle
    * @param  {object} e native event
    */
@@ -630,6 +645,7 @@ export default class extends Component {
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
+          onScroll={this.onScroll}
           style={this.props.scrollViewStyle}>
           {pages}
         </ScrollView>
@@ -639,6 +655,7 @@ export default class extends Component {
       <ViewPagerAndroid ref={this.refScrollView}
         {...this.props}
         initialPage={this.props.loop ? this.state.index + 1 : this.state.index}
+        onPageScroll={this.onScroll}
         onPageSelected={this.onScrollEnd}
         key={pages.length}
         style={[styles.wrapperAndroid, this.props.style]}>

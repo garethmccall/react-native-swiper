@@ -66,6 +66,10 @@ declare module 'react-native-swiper' {
         prevButton?: JSX.Element
 
         // Supported ScrollResponder
+        // Fires each frame of scrolling
+        onScroll?: any
+        // Number of milliseconds between each call to onScroll (16 = 60fps)
+        scrollEventThrottle?: number
         // When animation begins after letting up
         onScrollBeginDrag?: any
         // Makes no sense why this occurs first during bounce
